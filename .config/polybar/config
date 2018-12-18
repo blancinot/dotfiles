@@ -1,0 +1,411 @@
+;             _       _                                   __ _
+; _ __   ___ | |_   _| |__   __ _ _ __    ___ ___  _ __  / _(_) __ _
+;| '_ \ / _ \| | | | | '_ \ / _` | '__|  / __/ _ \| '_ \| |_| |/ _` |
+;| |_) | (_) | | |_| | |_) | (_| | |    | (_| (_) | | | |  _| | (_| |
+;| .__/ \___/|_|\__, |_.__/ \__,_|_|     \___\___/|_| |_|_| |_|\__, |
+;|_|            |___/                                          |___/
+
+
+;*********************************************************
+;
+;                          COLORS
+;
+;**********************************************************
+[colors]
+; Base colors from .Xresources
+background          =  ${xrdb:background:#000000}
+foreground          =  ${xrdb:foreground:#aaff77}
+red                 =  ${xrdb:color1}
+red-alt             =  ${xrdb:color9}
+green               =  ${xrdb:color2}
+green-alt           =  ${xrdb:color10}
+yellow              =  ${xrdb:color3}
+yellow-alt          =  ${xrdb:color11}
+blue                =  ${xrdb:color4}
+blue-alt            =  ${xrdb:color12}
+magenta             =  ${xrdb:color5}
+magenta-alt         =  ${xrdb:color13}
+cyan                =  ${xrdb:color6}
+cyan-alt            =  ${xrdb:color14}
+white               =  ${xrdb:color7}
+white-alt           =  ${xrdb:color15}
+
+
+;*********************************************************
+;
+;                       BAR SETTINGS
+;
+;********************************************************
+
+[bar/bottom]
+monitor = ${env:MONITOR:eDP-1-1}
+bottom=true
+
+line-color = ${colors.background}
+
+background = ${colors.background}
+foreground = ${colors.foreground}
+
+font-0 = Hack:size=7;1
+font-1 = unifont:size=5;1
+font-2 = FontAwesome:size=9;1
+font-3 = MaterialIcons:size=9;1
+
+width = 100%
+height = 2%
+;offset-x = 1%
+;offset-y = 80
+radius = 6.0
+fixed-center = true
+;dpi = ${xrdb:Xft.dpi:-1}
+;tray-maxsize = 48
+
+;line-size = 1
+
+border-top-size = 3
+border-left-size = 50
+border-right-size = 50
+border-bottom-size = 5
+
+padding-left = 1
+padding-right = 2
+
+module-margin-left = 1
+module-margin-right = 1
+
+tray-position = right
+tray-padding = 1
+
+modules-left = i3
+modules-center = updates separator filesystemroot filesystemhome separator temperature separator cpu separator memory separator wireless-network wired-network
+modules-right = battery volume backlight separator date
+
+;**********************************************************
+;
+;                   MODULES SETTINGS
+;
+;**********************************************************
+
+[module/separator]
+type = custom/text
+content = " | "
+
+[module/volume]
+type = internal/alsa
+
+master-soundcard = default
+speaker-soundcard = default
+headphone-soundcard = default
+master-mixer = Master
+speaker-mixer = Speaker
+headphone-mixer = Headphone
+headphone-id = 9
+
+mapped = true
+interval = 5
+
+format-volume = <ramp-volume><label-volume>
+label-muted =  0%
+label-muted-foreground = ${colors.red}
+
+ramp-volume-0 = 
+ramp-volume-0-foreground = ${colors.foreground}
+ramp-volume-1 = 
+ramp-volume-1-foreground = ${colors.foreground}
+ramp-volume-2 = 
+ramp-volume-2-foreground = ${colors.foreground}
+ramp-volume-3 = 
+ramp-volume-3-foreground = ${colors.foreground}
+
+;**********************************************************
+
+
+[module/backlight]
+type = internal/backlight
+card = intel_backlight
+
+format = <ramp> <label>
+
+ramp-0 = 
+ramp-0-foreground = ${colors.foreground}
+ramp-1 = 
+ramp-1-foreground = ${colors.foreground}
+ramp-2 = 
+ramp-2-foreground = ${colors.foreground}
+label = %percentage%%
+
+
+;**********************************************************
+
+
+[module/battery]
+type = internal/battery
+full-at = 98
+
+format-charging = <ramp-capacity> <label-charging>
+format-discharging = <ramp-capacity> <label-discharging>
+format-full = <ramp-capacity> <label-full>
+
+
+ramp-capacity-0 = 
+ramp-capacity-0-foreground = ${colors.red}
+ramp-capacity-1 = 
+ramp-capacity-1-foreground = ${colors.foreground}
+ramp-capacity-2 = 
+ramp-capacity-2-foreground = ${colors.foreground}
+ramp-capacity-3 = 
+ramp-capacity-3-foreground = ${colors.foreground}
+ramp-capacity-4 = 
+ramp-capacity-4-foreground = ${colors.green}
+
+label-charging =  %percentage%%
+label-discharging = %percentage%%
+label-full = full
+
+animation-charging-framerate = 750
+
+
+;**********************************************************
+
+
+[module/i3]
+type = internal/i3
+format = <label-state>   <label-mode>
+index-sort = true
+
+label-mode =   %mode%
+label-mode-padding = 2
+label-mode-foreground = ${colors.blue}
+
+label-focused-font = 4
+label-unfocused-font = 4
+label-urgent-font = 4
+label-visible-font = 4
+
+label-focused = 
+label-focused-foreground = ${colors.blue}
+label-focused-padding = 1
+
+label-unfocused = 
+label-unfocused-padding = 1
+label-unfocused-foreground = ${colors.foreground}
+
+label-urgent = 
+label-urgent-padding = 1
+label-urgent-foreground = ${colors.red}
+
+label-visible = 
+label-visible-foreground = ${colors.white}
+label-visible-padding = 1
+
+
+;**********************************************************
+
+
+[module/cpu]
+type = internal/cpu
+
+interval = 0.5
+
+format = <label> <ramp-coreload>
+
+label =  %percentage%%
+label-foreground=  ${colors.foreground}
+
+; Spacing between individual per-core ramps (unreleased)
+ramp-coreload-spacing = 1
+ramp-coreload-0 = ▁
+ramp-coreload-1 = ▂
+ramp-coreload-2 = ▃
+ramp-coreload-3 = ▄
+ramp-coreload-4 = ▅
+ramp-coreload-5 = ▆
+ramp-coreload-6 = ▇
+ramp-coreload-6-foreground = ${colors.red}
+ramp-coreload-7 = █
+ramp-coreload-7-foreground = ${colors.red}
+
+
+;**********************************************************
+
+
+[module/date]
+type = internal/date
+
+interval = 1.0
+date = %Y-%m-%d%
+time = %H:%M
+
+label =  %date% %time%
+
+
+
+;**********************************************************
+
+
+[module/memory]
+type = internal/memory
+format = <label> <bar-used>
+
+label =   %percentage_used%%
+
+; Only applies if <bar-used> is used
+bar-used-indicator =
+bar-used-width = 10
+bar-used-foreground-0 = ${colors.green}
+bar-used-foreground-1 = ${colors.white}
+bar-used-foreground-2 = ${colors.yellow}
+bar-used-foreground-3 = ${colors.red}
+bar-used-fill = ▐
+bar-used-empty = ▐
+bar-used-empty-foreground = ${colors.foreground}
+
+
+
+;**********************************************************
+
+
+[module/wireless-network]
+type = internal/network
+interface = wlp4s0
+interval = 2.0
+
+
+format-connected = <ramp-signal> <label-connected>
+label-connected =%essid%    %local_ip%     %upspeed%     %downspeed%
+label-disconnected = 
+label-disconnected-foreground = #66
+
+ramp-signal-0 = 
+ramp-signal-0-foreground = ${colors.red}
+ramp-signal-1 = 
+ramp-signal-1-foreground = ${colors.yellow}
+ramp-signal-2 = 
+ramp-signal-2-foreground = ${colors.foreground}
+ramp-signal-3 = 
+ramp-signal-3-foreground = ${colors.blue-alt}
+ramp-signal-4 = 
+ramp-signal-4-foreground = ${colors.green}
+
+
+;**********************************************************
+
+
+[module/wired-network]
+type = internal/network
+
+interface = enp3s0
+interval = 2.0
+
+
+format-connected = <ramp-signal> <label-connected>
+label-connected =%essid%     %local_ip%      %upspeed%      %downspeed%
+
+ramp-signal-0 = 
+ramp-signal-0-foreground = ${colors.red}
+ramp-signal-1 = 
+ramp-signal-1-foreground = ${colors.yellow}
+ramp-signal-2 = 
+ramp-signal-2-foreground = ${colors.foreground}
+ramp-signal-3 = 
+ramp-signal-3-foreground = ${colors.blue}
+ramp-signal-4 = 
+ramp-signal-4-foreground = ${colors.green}
+
+
+
+;**********************************************************
+
+
+[module/title]
+type = internal/xwindow
+format = <label>
+label = %title%
+label-maxlen = 50
+
+
+;**********************************************************
+
+
+[module/temperature]
+type = internal/temperature
+thermal-zone = 0
+warn-temperature = 70
+
+format = <ramp> <label>
+format-warn = <ramp> <label-warn>
+
+label = %temperature-c%
+label-warn = %temperature-c%
+label-warn-foreground = ${colors.red}
+
+ramp-0 = 
+ramp-1 = 
+ramp-2 = 
+ramp-foreground = ${colors.foreground}
+
+
+;**********************************************************
+
+
+[module/filesystemroot]
+type = internal/fs
+
+mount-0 = /
+
+interval = 10
+fixed-values = true
+
+spacing = 4
+format-mounted = <label-mounted>
+format-unmounted = <label-unmounted>
+
+
+label-mounted =   %free%
+label-unmounted =  not mnt
+label-unmounted-foreground = #55
+
+
+;**********************************************************
+
+
+
+[module/filesystemhome]
+type = internal/fs
+
+mount-0 = /home
+
+interval = 10
+fixed-values = true
+
+spacing = 4
+format-mounted = <label-mounted>
+format-unmounted = <label-unmounted>
+
+label-mounted =  %free%
+label-unmounted = not mnt
+label-unmounted-foreground = #55
+
+
+;**********************************************************
+
+
+;; TODO: VPN
+[module/vpn]
+;type = custom/script
+;exec = echo vpn
+;exec-if = pgrep -x openvpn
+;interval = 5
+;format-prefix = "VPN "
+;format-prefix-foreground = ${colors.foreground}
+
+
+;**********************************************************
+
+
+
+[module/updates]
+type = custom/script
+exec = ~/.config/polybar/updates-arch-yay.sh
+interval = 600
+click-right = ~/.config/polybar/prompt-updates.sh &
