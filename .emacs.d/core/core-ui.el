@@ -76,6 +76,7 @@
 
 ;; neotree
 (use-package all-the-icons)
+
 ;(doom-themes-neotree-config)
 (setq doom-neotree-line-spacing 1)
 (setq neo-theme (if (display-graphic-p) 'icons 'arrow))
@@ -83,72 +84,53 @@
 ;; Corrects (and improves) org-mode's native fontification.
 (doom-themes-org-config)
 
-;; Gère l'affichade de la mode-line(setq neo-theme (if (display-graphic-p) 'icons 'arrow))
-(defconst RIGHT_PADDING 1)
+(setq doom-neotree-line-spacing 1)
+(setq neo-theme (if (display-graphic-p) 'icons 'arrow))
 
-(defun reserve-left/middle ()
-  (/ (length (format-mode-line mode-line-align-middle)) 2))
+;; Corrects (and improves) org-mode's native fontification.
+(doom-themes-org-config)
 
-(defun reserve-middle/right ()
-  (+ RIGHT_PADDING (length (format-mode-line mode-line-align-right))))
+;; all-the-icons in dired
+(add-hook 'dired-mode-hook 'all-the-icons-dired-mode)
 
-(setq mode-line-align-left
-      '(" "
-        (:propertize " %I " face mode-line-position-grey-face)
-        (:propertize " %l:%c " face mode-line-position-face)
-        (vc-mode vc-mode)
-        ))
+;; all-the-icons in ivy
+(use-package all-the-icons-ivy
+  :ensure t
+  :config
+  (all-the-icons-ivy-setup))
 
-(setq mode-line-align-middle
-      '(
-        (:propertize (:eval (shorten-directory default-directory 30)) face mode-line-folder-face)
-        (:propertize "%b " face mode-line-filename-face)
-        ))
+;;(setq all-the-icons-ivy-buffer-commands '())
+(setq all-the-icons-ivy-file-commands
+      '(counsel-find-file counsel-file-jump counsel-recentf counsel-projectile-find-file counsel-projectile-find-dir))
 
-
-(setq mode-line-align-right
-      '(                                        ; read-only or modified status
-        (:eval
-         (cond (buffer-read-only (propertize " RO " 'face 'mode-line-read-only-face))
-               ((buffer-modified-p)(propertize " ** " 'face 'mode-line-modified-face))
-               (t (propertize "    " 'face 'mode-line-position-face))))
-        (:propertize " %p " face mode-line-position-grey-face)))
+(use-package doom-modeline
+      :ensure t
+      :defer t
+      :hook (after-init . doom-modeline-init))
 
 
+(setq doom-modeline-buffer-file-name-style 'truncate-all)
 
-(setq-default mode-line-format
-              (list
-               mode-line-align-left
-               '(:eval (mode-line-fill-center 'mode-line
-                                              (reserve-left/middle)))
-               mode-line-align-middle
-               '(:eval
-                 (mode-line-fill-right 'mode-line
-                                       (reserve-middle/right)))
-               mode-line-align-right
-               ))
+;; Whether show `all-the-icons' or not (if nil nothing will be showed).
+;; The icons may not be showed correctly on Windows. Disable to make it work.
+(setq doom-modeline-icon (display-graphic-p))
 
+;; Whether show the icon for major mode. It respects `doom-modeline-icon'.
+(setq doom-modeline-major-mode-icon t)
 
-;; Helper function
-(defun shorten-directory (dir max-length)
-  "Show up to `max-length' characters of a directory name `dir'."
-  (let ((path (reverse (split-string (abbreviate-file-name dir) "/")))
-        (output ""))
-    (when (and path (equal "" (car path)))
-      (setq path (cdr path)))
-    (while (and path (< (length output) (- max-length 8)))
-      (setq output (concat (car path) "/" output))
-      (setq path (cdr path)))
-    (when path
-      (setq output (concat ".../" output)))
-    output))
+;; Display color icons for `major-mode'. It respects `all-the-icons-color-icons'.
+(setq doom-modeline-major-mode-color-icon nil)
 
-;; Extra mode line faces
-;; (make-face 'mode-line-read-only-face)
-;; (make-face 'mode-line-modified-face)
-;; (make-face 'mode-line-filename-face)
-;; (make-face 'mode-line-position-face)
-;; (make-face 'mode-line-position-grey-face)
-;; (make-face 'mode-line-folder-face)
+;; Whether display minor modes or not. Non-nil to display in mode-line.
+(setq doom-modeline-minor-modes nil)
+
+;; Whether display perspective name or not. Non-nil to display in mode-line.
+(setq doom-modeline-persp-name t)
+
+;; Whether display `lsp' state or not. Non-nil to display in mode-line.
+(setq doom-modeline-lsp t)
+
+;; Whether display github notifications or not. Requires `ghub` package.
+(setq doom-modeline-github nil)
 
 (provide 'core-ui)

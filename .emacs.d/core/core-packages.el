@@ -27,7 +27,7 @@
 (use-package windmove
   :config
   ;; use shift + arrow keys to switch between visible buffers
-(windmove-default-keybindings))
+  (windmove-default-keybindings))
 
 ;; PACKAGE: anzu
 ;; GROUP: Editing -> Matching -> Isearch -> Anzu
@@ -41,7 +41,7 @@
 (use-package iedit
   :bind (("C-S-r" . iedit-mode))
   :init
-(setq iedit-toggle-key-default nil))
+  (setq iedit-toggle-key-default nil))
 
 
 ;; ;; Package: undo-tree
@@ -82,7 +82,7 @@
    ("C-{" . sp-backward-barf-sexp)
    ("M-S" . sp-split-sexp)
    ("M-J" . sp-join-sexp)
-("C-M-t" . sp-transpose-sexp)))
+   ("C-M-t" . sp-transpose-sexp)))
 
 
 ;; Package: yasnippet
@@ -91,13 +91,13 @@
 (use-package yasnippet
   :defer t
   :init
-   (add-hook 'prog-mode-hook 'yas-minor-mode)
-   (yas-global-mode 1)
-   (yas-reload-all)
-   (setq yas-verbosity 1)
-   ;; Wrap around region
-   (setq yas-wrap-around-region t)
-   (add-hook 'term-mode-hook (lambda() (setq yas-dont-activate t))))
+  (add-hook 'prog-mode-hook 'yas-minor-mode)
+  (yas-global-mode 1)
+  (yas-reload-all)
+  (setq yas-verbosity 1)
+  ;; Wrap around region
+  (setq yas-wrap-around-region t)
+  (add-hook 'term-mode-hook (lambda() (setq yas-dont-activate t))))
 
 
 ;; Package: projectile
@@ -112,7 +112,7 @@
 (use-package ggtags
   :ensure t
   :bind
-  (("M-," . pop-tag-mark)))
+  (("M-*" . pop-tag-mark)))
 
 
 (use-package swiper
@@ -208,32 +208,46 @@ Optional INITIAL-INPUT is the initial input in the minibuffer."
                                (describe-package (intern x)))
                      :caller 'counsel-describe-package))))
 
-;; (use-package sr-speedbar
-;;   :ensure t
-;;   :bind (("C-c m" . sr-speedbar-toggle))
-;;   :init
-;; (setq speedbar-hide-button-brackets-flag t
-;;       speedbar-show-unknown-files t
-;;       speedbar-smart-directory-expand-flag t
-;;       speedbar-directory-button-trim-method 'trim
-;;       speedbar-use-images nil
-;;       speedbar-indentation-width 2
-;;       speedbar-use-imenu-flag t
-;;       speedbar-file-unshown-regexp "flycheck-.*"
-;;       sr-speedbar-width 35
-;;       sr-speedbar-width-x 35
-;;       sr-speedbar-auto-refresh nil
-;;       sr-speedbar-skip-other-window-p t
-;;       sr-speedbar-right-side nil))
 
 (use-package neotree
   :config
   :bind (("C-c m" . neotree-toggle)))
 
-;; (use-package doom-neotree
-;;   :ensure nil
-;;   :config
-;;   (setq doom-neotree-enable-file-icons t))
+;; Flycheck
+(use-package flycheck
+  :defer 1
+  :init (setq
+         flycheck-checkers
+         '(typescript-tide
+           javascript-tide
+           jsx-tide
+           javascript-eslint
+           css-csslint
+           emacs-lisp
+           haml
+           json-jsonlint
+           yaml-jsyaml))
+  :config (global-flycheck-mode))
+
+(use-package company
+  :ensure t
+  :diminish company-mode
+  :init
+  :bind (("C-n"   . company-select-next)
+         ("C-p"   . company-select-previous)
+         ("C-d"   . company-show-doc-buffer)
+         ("C-<tab>" . company-complete))
+  :config
+  (global-company-mode)
+  (setq company-tooltip-limit 10)
+  (setq company-idle-delay 0)
+  (setq company-echo-delay 0)
+  (setq company-minimum-prefix-length 1)
+  (setq company-require-match nil)
+  (setq company-selection-wrap-around t)
+  (setq company-tooltip-align-annotations t)
+  ;; weight by frequency)
+  (setq company-transformers '(company-sort-by-occurrence)))
 
 
 

@@ -15,7 +15,6 @@
   '(anzu
     use-package
     smex
-    anzu
     flymd
     projectile
     ivy
@@ -33,17 +32,25 @@
     flycheck
     neotree
     exec-path-from-shell
-    auto-complete
+    company
+    company-go
     zygospore
     counsel-projectile
     function-args
     doom-themes
+    doom-modeline
+    markdown-mode
+    yaml-mode
+    js2-mode
+    typescript-mode
+    web-mode
+    tide
     go-mode
-    go-autocomplete
     flymake-go
+    go-guru
     go-add-tags
     go-errcheck
-    go-stacktracer))
+    golint))
 
 ;; Installe les packages s'ils ne le sont pas
 (defun install-packages ()

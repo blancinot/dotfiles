@@ -33,9 +33,9 @@
 
 
 (message "Loading core...")
+(require 'core-bootstrap)
 (require 'core-ui)
 (require 'core-paths)
-(require 'core-bootstrap)
 (require 'core-packages)
 (require 'core-utils)
 
@@ -43,6 +43,8 @@
 ;;(require 'module-lang-tex)
 ;; (require 'module-lang-c)
 (require 'module-lang-go)
+(require 'module-lang-javascript)
 (require 'module-lang-markdown)
+(require 'module-lang-yaml)
 
 (message "Ready to do thy bidding, Master %s!" current-user)
